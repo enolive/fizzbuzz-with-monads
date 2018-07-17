@@ -15,14 +15,15 @@ class FizzBuzz {
     );
 
     static Either<String, String> calculate(int input) {
-        return Option.of(input)
-                     .filter(FizzBuzz::validInput)
-                     .map(FizzBuzz::calculateRight)
-                     .toEither("Input should be positive");
+        return validate(input).right()
+                              .map(FizzBuzz::calculateRight)
+                              .toEither();
     }
 
-    private static boolean validInput(int input) {
-        return input > 0;
+    private static Either<String, Integer> validate(int input) {
+        return Option.some(input)
+                     .filter(i -> i > 0)
+                     .toEither("Input should be positive");
     }
 
     private static String calculateRight(int input) {
