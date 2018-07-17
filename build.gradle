@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'de.welcz'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.10
+targetCompatibility = 1.10
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    def junitVersion = '5.2.+'
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testCompile "org.assertj:assertj-core:3.+"
+}
