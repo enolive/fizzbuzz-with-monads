@@ -54,4 +54,10 @@ class FizzBuzzTest {
     void sequence_with_limit_too_low_should_be_empty(int limit) {
         assertThat(FizzBuzz.sequence(limit).get()).isEmpty();
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {10001, 99999})
+    void sequence_with_limit_too_high_should_fail(int limit) {
+        assertThat(FizzBuzz.sequence(limit).getLeft()).isEqualTo("Input must be less or equal 10000");
+    }
 }
