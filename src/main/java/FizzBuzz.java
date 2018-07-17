@@ -21,6 +21,7 @@ class FizzBuzz {
     private static String calculateRight(int input) {
         return Match(input)
                 .option(
+                        Case($(isDivisibleBy(15)), "Fizz-Buzz"),
                         Case($(isDivisibleBy(3)), "Fizz"),
                         Case($(isDivisibleBy(5)), "Buzz")
                 )
