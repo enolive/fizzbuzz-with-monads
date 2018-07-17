@@ -15,8 +15,12 @@ class FizzBuzz {
 
     private static String calculateRight(int input) {
         return Option.of(input)
-                     .filter(i -> i == 3)
+                     .filter(i -> isDivisibleBy(i, 3))
                      .map(__ -> "Fizz")
                      .getOrElse(() -> String.valueOf(input));
+    }
+
+    private static boolean isDivisibleBy(int input, int divisor) {
+        return input % divisor == 0;
     }
 }

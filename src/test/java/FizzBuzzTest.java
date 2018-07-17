@@ -17,8 +17,9 @@ class FizzBuzzTest {
         assertThat(FizzBuzz.calculate(input).right().get()).isEqualTo(String.valueOf(input));
     }
 
-    @Test
-    void numbers_divisible_by_3_should_be_returned_as_fizz() {
-        assertThat(FizzBuzz.calculate(3).right().get()).isEqualTo("Fizz");
+    @ParameterizedTest
+    @ValueSource(ints = {3, 6, 9})
+    void numbers_divisible_by_3_should_be_returned_as_fizz(int input) {
+        assertThat(FizzBuzz.calculate(input).right().get()).isEqualTo("Fizz");
     }
 }
