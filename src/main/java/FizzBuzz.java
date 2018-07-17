@@ -24,7 +24,8 @@ class FizzBuzz {
         // TODO: this is a little bit awkward as VAVR's filter produces
         // an Option in its filter implementation
         // there is an open merge request targeting vavr-1.0.0
-        // with a better filter implementation
+        // that targets this problem:
+        // https://github.com/vavr-io/vavr/pull/2256
         return Either.<String, Integer>right(input)
                 .filter(i -> i > 0)
                 .getOrElse(Either.left("Input should be positive"))
