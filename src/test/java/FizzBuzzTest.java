@@ -16,8 +16,12 @@ class FizzBuzzTest {
     private Either<String, String> calculate(int input) {
         return Option.of(input)
                      .filter(i -> i > 0)
-                     .map(obj -> String.valueOf(obj))
+                     .map(this::calculateRight)
                      .toEither("Input should be positive");
+    }
+
+    private String calculateRight(Integer obj) {
+        return "1";
     }
 
     @Test
