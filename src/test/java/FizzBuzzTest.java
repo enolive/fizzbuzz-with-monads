@@ -1,4 +1,6 @@
 import io.vavr.control.Either;
+import io.vavr.control.Option;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -12,6 +14,14 @@ class FizzBuzzTest {
     }
 
     private Either<String, String> calculate(int input) {
-        return Either.left("Input should be positive");
+        return Option.of(input)
+                     .filter(i -> i > 0)
+                     .map(obj -> String.valueOf(obj))
+                     .toEither("Input should be positive");
+    }
+
+    @Test
+    void normal_numbers_should_be_returned_as_is() {
+        assertThat(calculate(1).right().get()).isEqualTo("1");
     }
 }
