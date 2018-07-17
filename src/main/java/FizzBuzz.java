@@ -16,11 +16,13 @@ class FizzBuzz {
     );
 
     static Either<String, Stream<String>> sequence(int limit) {
-        final var validatedLimit =
-                Function1.of(FizzBuzz::lessThanUpperLimit)
-                         .compose(FizzBuzz::toRight)
-                         .apply(limit);
-        return validatedLimit.map(FizzBuzz::sequenceRight);
+        return validateLimit(limit).map(FizzBuzz::sequenceRight);
+    }
+
+    private static Either<String, Integer> validateLimit(int limit) {
+        return Function1.of(FizzBuzz::lessThanUpperLimit)
+                        .compose(FizzBuzz::toRight)
+                        .apply(limit);
     }
 
     private static Stream<String> sequenceRight(int limit) {
