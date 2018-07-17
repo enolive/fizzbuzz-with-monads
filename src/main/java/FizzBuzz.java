@@ -21,9 +21,15 @@ class FizzBuzz {
     }
 
     private static Either<String, Integer> validate(int input) {
-        return Option.some(input)
-                     .filter(i -> i > 0)
-                     .toEither("Input should be positive");
+        // TODO: this is a little bit awkward as VAVR's filter produces
+        // an Option in its filter implementation
+        // there is an open merge request targeting vavr-1.0.0
+        // with a better filter implementation
+        return Either.<String, Integer>right(input)
+                .filter(i -> i > 0)
+                .getOrElse(Either.left("Input should be positive"))
+                .filter(i -> i <= 10000)
+                .getOrElse(Either.left("Input must be less or equal 10000"));
     }
 
     private static String calculateRight(int input) {

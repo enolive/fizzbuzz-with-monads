@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -7,8 +6,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FizzBuzzTest {
     @ParameterizedTest
     @ValueSource(ints = {0, -1, -1234})
-    void invalid_input_should_produce_an_error(int input) {
+    void small_input_should_produce_an_error(int input) {
         assertThat(FizzBuzz.calculate(input).left().get()).isEqualTo("Input should be positive");
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {10001, 34567})
+    void large_input_should_produce_an_error(int input) {
+        assertThat(FizzBuzz.calculate(input).left().get()).isEqualTo("Input must be less or equal 10000");
     }
 
     @ParameterizedTest
