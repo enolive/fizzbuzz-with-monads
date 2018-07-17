@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -38,5 +39,13 @@ class FizzBuzzTest {
     @ValueSource(ints = {15, 30, 45})
     void numbers_divisible_by_3_and_5_should_be_returned_as_fizz_buzz(int input) {
         assertThat(FizzBuzz.calculate(input).right().get()).isEqualTo("Fizz-Buzz");
+    }
+
+    @Test
+    void sequence_should_contain_the_expected_items() {
+        assertThat(FizzBuzz.sequence(15).right().get()).containsExactly(
+                "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz",
+                "Buzz", "11", "Fizz", "13", "14", "Fizz-Buzz"
+        );
     }
 }

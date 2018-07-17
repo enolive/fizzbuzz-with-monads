@@ -1,5 +1,6 @@
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
+import io.vavr.collection.Stream;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 
@@ -8,11 +9,16 @@ import java.util.function.Predicate;
 import static io.vavr.API.Tuple;
 
 class FizzBuzz {
-
     private static final List<Tuple2<Predicate<Integer>, String>> RULES = List.of(
             Tuple(isDivisibleBy(3), "Fizz"),
             Tuple(isDivisibleBy(5), "Buzz")
     );
+
+    static Either<String, Stream<String>> sequence(int limit) {
+        final Stream<String> sequence = Stream.rangeClosed(1, limit)
+                                              .map(FizzBuzz::calculateRight);
+        return Either.right(sequence);
+    }
 
     static Either<String, String> calculate(int input) {
         return validate(input).right()
