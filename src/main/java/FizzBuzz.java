@@ -14,6 +14,9 @@ class FizzBuzz {
     }
 
     private static String calculateRight(int input) {
-        return String.valueOf(input);
+        return Option.of(input)
+                     .filter(i -> i == 3)
+                     .map(__ -> "Fizz")
+                     .getOrElse(() -> String.valueOf(input));
     }
 }

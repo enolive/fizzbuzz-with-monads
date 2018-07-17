@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -14,5 +15,10 @@ class FizzBuzzTest {
     @ValueSource(ints = {1, 2, 4})
     void normal_numbers_should_be_returned_as_is(int input) {
         assertThat(FizzBuzz.calculate(input).right().get()).isEqualTo(String.valueOf(input));
+    }
+
+    @Test
+    void numbers_divisible_by_3_should_be_returned_as_fizz() {
+        assertThat(FizzBuzz.calculate(3).right().get()).isEqualTo("Fizz");
     }
 }
