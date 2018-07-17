@@ -15,9 +15,8 @@ class FizzBuzz {
     );
 
     static Either<String, Stream<String>> sequence(int limit) {
-        final Stream<String> sequence = Stream.rangeClosed(1, limit)
-                                              .map(FizzBuzz::calculateRight);
-        return Either.right(sequence);
+        return Either.right(Stream.rangeClosed(1, limit)
+                                  .map(FizzBuzz::calculateRight));
     }
 
     static Either<String, String> calculate(int input) {
