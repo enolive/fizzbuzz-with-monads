@@ -1,5 +1,8 @@
+import io.vavr.Predicates;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
+
+import java.util.function.Predicate;
 
 import static io.vavr.API.*;
 
@@ -18,13 +21,13 @@ class FizzBuzz {
     private static String calculateRight(int input) {
         return Match(input)
                 .option(
-                        Case($(i -> isDivisibleBy(i, 3)), "Fizz"),
-                        Case($(i -> isDivisibleBy(i, 5)), "Buzz")
+                        Case($(isDivisibleBy(3)), "Fizz"),
+                        Case($(isDivisibleBy(5)), "Buzz")
                 )
                 .getOrElse(() -> String.valueOf(input));
     }
 
-    private static boolean isDivisibleBy(int input, int divisor) {
-        return input % divisor == 0;
+    private static Predicate<Integer> isDivisibleBy(int divisor) {
+        return input -> input % divisor == 0;
     }
 }
