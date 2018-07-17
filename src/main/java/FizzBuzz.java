@@ -1,3 +1,4 @@
+import io.vavr.Function1;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.collection.Stream;
@@ -16,7 +17,8 @@ class FizzBuzz {
 
     static Either<String, Stream<String>> sequence(int limit) {
         return Either.right(Stream.rangeClosed(1, limit)
-                                  .map(FizzBuzz::calculateRight));
+                                  .map(FizzBuzz::calculate)
+                                  .map(Either::get));
     }
 
     static Either<String, String> calculate(int input) {
@@ -26,16 +28,24 @@ class FizzBuzz {
     }
 
     private static Either<String, Integer> validate(int input) {
-        // TODO: this is a little bit awkward as VAVR's filter produces
-        // an Option in its filter implementation
-        // there is an open merge request targeting vavr-1.0.0
-        // that targets this problem:
-        // https://github.com/vavr-io/vavr/pull/2256
-        return Either.<String, Integer>right(input)
-                .filter(i -> i > 0)
-                .getOrElse(Either.left("Input should be positive"))
-                .filter(i -> i <= 10000)
-                .getOrElse(Either.left("Input must be less or equal 10000"));
+        return Function1.of(FizzBuzz::lessThanUpperLimit)
+                        .compose(FizzBuzz::isPositive)
+                        .compose(FizzBuzz::toRight)
+                        .apply(input);
+    }
+
+    private static Either<String, Integer> toRight(int number) {
+        return Either.right(number);
+    }
+
+    private static Either<String, Integer> lessThanUpperLimit(Either<String, Integer> right) {
+        return right.filter(i -> i <= 10000)
+                    .getOrElse(Either.left("Input must be less or equal 10000"));
+    }
+
+    private static Either<String, Integer> isPositive(Either<String, Integer> right) {
+        return right.filter(i -> i > 0)
+                    .getOrElse(Either.left("Input should be positive"));
     }
 
     private static String calculateRight(int input) {
