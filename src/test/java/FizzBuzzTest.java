@@ -22,4 +22,10 @@ class FizzBuzzTest {
     void numbers_divisible_by_3_should_be_returned_as_fizz(int input) {
         assertThat(FizzBuzz.calculate(input).right().get()).isEqualTo("Fizz");
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {5, 10, 20})
+    void numbers_divisible_by_5_should_be_returned_as_buzz(int input) {
+        assertThat(FizzBuzz.calculate(input).right().get()).isEqualTo("Buzz");
+    }
 }

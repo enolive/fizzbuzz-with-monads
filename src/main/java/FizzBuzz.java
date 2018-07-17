@@ -1,6 +1,8 @@
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 
+import static io.vavr.API.*;
+
 class FizzBuzz {
     static Either<String, String> calculate(int input) {
         return Option.of(input)
@@ -14,10 +16,12 @@ class FizzBuzz {
     }
 
     private static String calculateRight(int input) {
-        return Option.of(input)
-                     .filter(i -> isDivisibleBy(i, 3))
-                     .map(__ -> "Fizz")
-                     .getOrElse(() -> String.valueOf(input));
+        return Match(input)
+                .option(
+                        Case($(i -> isDivisibleBy(i, 3)), "Fizz"),
+                        Case($(i -> isDivisibleBy(i, 5)), "Buzz")
+                )
+                .getOrElse(() -> String.valueOf(input));
     }
 
     private static boolean isDivisibleBy(int input, int divisor) {
