@@ -19,11 +19,15 @@ class FizzBuzz {
     }
 
     private static String convertRight(int input) {
-        return Option.some(RULES.filter(rule -> rule._1.test(input))
-                                .map(rule -> rule._2)
-                                .mkString("-"))
+        return Option.some(calculateResultFromRulesFor(input))
                      .filter(Predicates.noneOf(String::isEmpty))
                      .getOrElse(() -> String.valueOf(input));
+    }
+
+    private static String calculateResultFromRulesFor(int input) {
+        return RULES.filter(rule -> rule._1.test(input))
+                    .map(rule -> rule._2)
+                    .mkString("-");
     }
 
     private static Predicate<Integer> numbersDivisibleBy(int divisor) {
