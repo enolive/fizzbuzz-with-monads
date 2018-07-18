@@ -13,7 +13,7 @@ class FizzBuzzTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {3})
+    @ValueSource(ints = {3, 6})
     @DisplayName("numbers divisible by 3 should be converted to Fizz")
     void fizz(int input) {
         assertThat(FizzBuzz.convert(input).get()).isEqualTo("Fizz");
