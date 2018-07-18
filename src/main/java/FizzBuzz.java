@@ -15,7 +15,10 @@ class FizzBuzz {
     );
 
     static Either<String, String> convert(int input) {
-        return Either.right(convertRight(input));
+        return Either.<String, Integer>right(input)
+                .filter(i -> i > 0)
+                .getOrElse(Either.left("Input must be greater than zero."))
+                .map(FizzBuzz::convertRight);
     }
 
     private static String convertRight(int input) {
