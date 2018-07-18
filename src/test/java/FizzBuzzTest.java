@@ -43,6 +43,7 @@ class FizzBuzzTest {
     @Nested
     class Validation {
         @Test
+        @DisplayName("numbers smaller than 1 are not considered as countable and therefore rejected")
         void notPositive() {
             assertThat(FizzBuzz.convert(0).getLeft()).isEqualTo("Input must be greater than zero.");
         }
