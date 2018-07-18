@@ -1,3 +1,4 @@
+import io.vavr.collection.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,16 @@ class FizzBuzzTest {
         @ValueSource(ints = {FizzBuzz.UPPER_LIMIT + 1, Integer.MAX_VALUE})
         @DisplayName("numbers larger than 1 will put a big strain on a number sequence and therefore will be rejected")
         void tooLarge(int input) {
-            assertThat(FizzBuzz.convert(input).getLeft()).isEqualTo(MessageFormat.format("Input must not exceed {0}.", FizzBuzz.UPPER_LIMIT));
+            assertThat(FizzBuzz.convert(input).getLeft()).isEqualTo(MessageFormat.format(
+                    "Input must not exceed {0}.", FizzBuzz.UPPER_LIMIT));
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {FizzBuzz.UPPER_LIMIT + 1, Integer.MAX_VALUE - 100})
+        @DisplayName("if the limit exceeds upper limit, we should immediately stop")
+        void tooLargeSequence(int limit) {
+            assertThat(FizzBuzz.sequenceUpTo(limit).getLeft()).isEqualTo(MessageFormat.format(
+                    "Input must not exceed {0}.", FizzBuzz.UPPER_LIMIT));
         }
     }
 
@@ -66,8 +76,8 @@ class FizzBuzzTest {
         @DisplayName("all possible distinct values resulting from the rules")
         void normal() {
             assertThat(FizzBuzz.sequenceUpTo(15).get()).containsExactly(
-              "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz",
-              "Buzz", "11", "Fizz", "13", "14", "Fizz-Buzz"
+                    "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz",
+                    "Buzz", "11", "Fizz", "13", "14", "Fizz-Buzz"
             );
         }
 

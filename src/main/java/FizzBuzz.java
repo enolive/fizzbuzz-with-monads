@@ -19,8 +19,9 @@ class FizzBuzz {
     );
 
     static Either<String, Seq<String>> sequenceUpTo(int limit) {
-        return Either.sequenceRight(Stream.rangeClosed(1, limit)
-                                          .map(FizzBuzz::convert));
+        return Either.sequenceRight(Stream.rangeClosedBy(limit, 1, -1)
+                                          .map(FizzBuzz::convert))
+                     .map(Seq::reverse);
     }
 
     static Either<String, String> convert(int input) {
