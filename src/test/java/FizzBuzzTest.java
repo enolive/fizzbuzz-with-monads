@@ -13,9 +13,16 @@ class FizzBuzzTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {3, 6})
+    @ValueSource(ints = {3, 6, 9})
     @DisplayName("numbers divisible by 3 should be converted to Fizz")
     void fizz(int input) {
         assertThat(FizzBuzz.convert(input).get()).isEqualTo("Fizz");
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {5})
+    @DisplayName("numbers divisible by 5 should be converted to Buzz")
+    void buzz(int input) {
+        assertThat(FizzBuzz.convert(input).get()).isEqualTo("Buzz");
     }
 }
