@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FizzBuzzTest {
     @Test
-    void name() {
-        assertThat(true).isFalse();
+    void normalNumbers() {
+        assertThat(FizzBuzz.convert(1)).isEqualTo("1");
     }
+
 }
