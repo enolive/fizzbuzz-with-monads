@@ -2,6 +2,8 @@ import io.vavr.Predicates;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
+import io.vavr.collection.Seq;
+import io.vavr.collection.Stream;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 
@@ -15,6 +17,11 @@ class FizzBuzz {
             Tuple.of(numbersDivisibleBy(3), "Fizz"),
             Tuple.of(numbersDivisibleBy(5), "Buzz")
     );
+
+    static Either<String, Seq<String>> sequenceUpTo(int limit) {
+        return Either.sequenceRight(Stream.rangeClosed(1, limit)
+                                          .map(FizzBuzz::convert));
+    }
 
     static Either<String, String> convert(int input) {
         return validate(input).map(FizzBuzz::convertRight);

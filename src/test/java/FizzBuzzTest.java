@@ -58,4 +58,23 @@ class FizzBuzzTest {
             assertThat(FizzBuzz.convert(input).getLeft()).isEqualTo(MessageFormat.format("Input must not exceed {0}.", FizzBuzz.UPPER_LIMIT));
         }
     }
+
+    @DisplayName("sequence generation")
+    @Nested
+    class Sequence {
+        @Test
+        @DisplayName("all possible distinct values resulting from the rules")
+        void normal() {
+            assertThat(FizzBuzz.sequenceUpTo(15).get()).containsExactly(
+              "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz",
+              "Buzz", "11", "Fizz", "13", "14", "Fizz-Buzz"
+            );
+        }
+
+        @Test
+        @DisplayName("large sequences should work as well")
+        void large() {
+            assertThat(FizzBuzz.sequenceUpTo(FizzBuzz.UPPER_LIMIT).get()).hasSize(FizzBuzz.UPPER_LIMIT);
+        }
+    }
 }
