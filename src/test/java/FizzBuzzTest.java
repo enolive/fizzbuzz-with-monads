@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.text.MessageFormat;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FizzBuzzTest {
@@ -42,10 +44,18 @@ class FizzBuzzTest {
     @DisplayName("input validation")
     @Nested
     class Validation {
-        @Test
+        @ParameterizedTest
+        @ValueSource(ints = {0, -1, Integer.MIN_VALUE})
         @DisplayName("numbers smaller than 1 are not considered as countable and therefore rejected")
-        void notPositive() {
-            assertThat(FizzBuzz.convert(0).getLeft()).isEqualTo("Input must be greater than zero.");
+        void notPositive(int input) {
+            assertThat(FizzBuzz.convert(input).getLeft()).isEqualTo("Input must be greater than zero.");
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {FizzBuzz.UPPER_LIMIT + 1, Integer.MAX_VALUE})
+        @DisplayName("numbers larger than 1 will put a big strain on a number sequence and therefore will be rejected")
+        void tooLarge(int input) {
+            assertThat(FizzBuzz.convert(input).getLeft()).isEqualTo(MessageFormat.format("Input must not exceed {0}.", FizzBuzz.UPPER_LIMIT));
         }
     }
 }

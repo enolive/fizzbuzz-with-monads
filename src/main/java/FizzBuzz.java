@@ -5,10 +5,12 @@ import io.vavr.collection.List;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 
+import java.text.MessageFormat;
 import java.util.function.Predicate;
 
 class FizzBuzz {
 
+    public static final int UPPER_LIMIT = 10000;
     private static final List<Tuple2<Predicate<Integer>, String>> RULES = List.of(
             Tuple.of(numbersDivisibleBy(3), "Fizz"),
             Tuple.of(numbersDivisibleBy(5), "Buzz")
@@ -18,6 +20,8 @@ class FizzBuzz {
         return Either.<String, Integer>right(input)
                 .filter(i -> i > 0)
                 .getOrElse(Either.left("Input must be greater than zero."))
+                .filter(i -> i <= UPPER_LIMIT)
+                .getOrElse(Either.left(MessageFormat.format("Input must not exceed {0}.", UPPER_LIMIT)))
                 .map(FizzBuzz::convertRight);
     }
 
