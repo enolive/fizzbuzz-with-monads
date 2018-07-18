@@ -1,6 +1,7 @@
 import io.vavr.Function1;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
+import io.vavr.collection.Seq;
 import io.vavr.collection.Stream;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
@@ -11,12 +12,12 @@ import static io.vavr.API.Tuple;
 
 class FizzBuzz {
     private static final List<Tuple2<Predicate<Integer>, String>> RULES = List.of(
-            Tuple(isDivisibleBy(3), "Fizz"),
-            Tuple(isDivisibleBy(5), "Buzz")
+            Tuple(numbersDivisibleBy(3), "Fizz"),
+            Tuple(numbersDivisibleBy(5), "Buzz")
     );
 
-    static Either<String, Stream<String>> sequence(int limit) {
-        return validateLimit(limit).map(FizzBuzz::sequenceRight);
+    static Either<String, Seq<String>> sequence(int limit) {
+        return validateLimit(limit).flatMap(FizzBuzz::eitherSequence);
     }
 
     private static Either<String, Integer> validateLimit(int limit) {
@@ -25,10 +26,9 @@ class FizzBuzz {
                         .apply(limit);
     }
 
-    private static Stream<String> sequenceRight(int limit) {
-        return Stream.rangeClosed(1, limit)
-                     .map(FizzBuzz::calculate)
-                     .map(Either::get);
+    private static Either<String, Seq<String>> eitherSequence(int limit) {
+        return Either.sequenceRight(Stream.rangeClosed(1, limit)
+                                          .map(FizzBuzz::calculate));
     }
 
     static Either<String, String> calculate(int input) {
@@ -70,7 +70,8 @@ class FizzBuzz {
                     .mkString("-");
     }
 
-    private static Predicate<Integer> isDivisibleBy(int divisor) {
+    private static Predicate<Integer> numbersDivisibleBy(int divisor) {
         return input -> input % divisor == 0;
     }
+
 }
