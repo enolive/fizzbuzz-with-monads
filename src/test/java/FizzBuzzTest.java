@@ -76,5 +76,12 @@ class FizzBuzzTest {
         void large() {
             assertThat(FizzBuzz.sequenceUpTo(FizzBuzz.UPPER_LIMIT).get()).hasSize(FizzBuzz.UPPER_LIMIT);
         }
+
+        @ParameterizedTest
+        @ValueSource(ints = {0, -1})
+        @DisplayName("limit less than 1 should result in an empty sequence")
+        void empty(int limit) {
+            assertThat(FizzBuzz.sequenceUpTo(limit).get()).isEmpty();
+        }
     }
 }
