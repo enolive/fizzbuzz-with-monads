@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -10,4 +11,8 @@ class FizzBuzzTest {
         assertThat(FizzBuzz.convert(input).get()).isEqualTo(String.valueOf(input));
     }
 
+    @Test
+    void fizz() {
+        assertThat(FizzBuzz.convert(3).get()).isEqualTo("Fizz");
+    }
 }
