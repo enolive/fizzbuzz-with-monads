@@ -17,18 +17,17 @@ class FizzBuzz {
     );
 
     static Either<String, Seq<String>> sequence(int limit) {
-        return validateLimit(limit).flatMap(FizzBuzz::eitherSequence);
+        return toRight(limit).flatMap(FizzBuzz::eitherSequence);
     }
 
-    private static Either<String, Integer> validateLimit(int limit) {
-        return Function1.of(FizzBuzz::lessThanUpperLimit)
-                        .compose(FizzBuzz::toRight)
-                        .apply(limit);
+    private static Either<String, Integer> toRight(int number) {
+        return Either.right(number);
     }
 
     private static Either<String, Seq<String>> eitherSequence(int limit) {
-        return Either.sequenceRight(Stream.rangeClosed(1, limit)
-                                          .map(FizzBuzz::calculate));
+        return Either.sequenceRight(Stream.rangeClosedBy(limit, 1, -1)
+                                          .map(FizzBuzz::calculate))
+                     .map(Seq::reverse);
     }
 
     static Either<String, String> calculate(int input) {
@@ -42,10 +41,6 @@ class FizzBuzz {
                         .compose(FizzBuzz::isPositive)
                         .compose(FizzBuzz::toRight)
                         .apply(input);
-    }
-
-    private static Either<String, Integer> toRight(int number) {
-        return Either.right(number);
     }
 
     private static Either<String, Integer> lessThanUpperLimit(Either<String, Integer> right) {
