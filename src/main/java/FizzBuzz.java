@@ -1,4 +1,4 @@
-import io.vavr.Function1;
+import io.vavr.Predicates;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
@@ -31,31 +31,19 @@ class FizzBuzz {
     }
 
     static Either<String, String> calculate(int input) {
-        return validate(input).right()
-                              .map(FizzBuzz::calculateRight)
-                              .toEither();
+        return validate(input).map(FizzBuzz::calculateRight);
     }
 
     private static Either<String, Integer> validate(int input) {
-        return Function1.of(FizzBuzz::lessThanUpperLimit)
-                        .compose(FizzBuzz::isPositive)
-                        .compose(FizzBuzz::toRight)
-                        .apply(input);
-    }
-
-    private static Either<String, Integer> lessThanUpperLimit(Either<String, Integer> right) {
-        return right.filter(i -> i <= 10000)
-                    .getOrElse(Either.left("Input must be less or equal 10000"));
-    }
-
-    private static Either<String, Integer> isPositive(Either<String, Integer> right) {
-        return right.filter(i -> i > 0)
-                    .getOrElse(Either.left("Input should be positive"));
+        return toRight(input).filter(i -> i > 0)
+                             .getOrElse(Either.left("Input should be positive"))
+                             .filter(i -> i <= 10000)
+                             .getOrElse(Either.left("Input must be less or equal 10000"));
     }
 
     private static String calculateRight(int input) {
         return Option.some(getResultFromRules(input))
-                     .filter(result -> !result.isEmpty())
+                     .filter(Predicates.noneOf(String::isEmpty))
                      .getOrElse(() -> String.valueOf(input));
     }
 
