@@ -17,17 +17,13 @@ class FizzBuzz {
     );
 
     static Either<String, Seq<String>> sequence(int limit) {
-        return toRight(limit).flatMap(FizzBuzz::eitherSequence);
+        return Either.sequenceRight(Stream.rangeClosedBy(limit, 1, -1)
+                                          .map(FizzBuzz::calculate))
+                     .map(Seq::reverse);
     }
 
     private static Either<String, Integer> toRight(int number) {
         return Either.right(number);
-    }
-
-    private static Either<String, Seq<String>> eitherSequence(int limit) {
-        return Either.sequenceRight(Stream.rangeClosedBy(limit, 1, -1)
-                                          .map(FizzBuzz::calculate))
-                     .map(Seq::reverse);
     }
 
     static Either<String, String> calculate(int input) {
