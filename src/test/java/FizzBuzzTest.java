@@ -40,4 +40,11 @@ class FizzBuzzTest {
         assertThat(fizzBuzz.tryCalculateSingle(input).get())
                 .isEqualTo(String.valueOf("Fizz-Buzz"));
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1})
+    void inputTooLow(int input) {
+        assertThat(fizzBuzz.tryCalculateSingle(input).getLeft())
+                .isEqualTo("Input must be greater than zero.");
+    }
 }

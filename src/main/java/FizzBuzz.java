@@ -10,7 +10,13 @@ class FizzBuzz {
     );
 
     Either<String, String> tryCalculateSingle(int input) {
-        return Either.right(calculateSingle(input));
+        return validate(input).map(this::calculateSingle);
+    }
+
+    private Either<String, Integer> validate(int input) {
+        return Either.<String, Integer>right(input)
+                .filter(i -> i > 0)
+                .getOrElse(() -> Either.left("Input must be greater than zero."));
     }
 
     private String calculateSingle(int input) {
