@@ -26,4 +26,11 @@ class FizzBuzzTest {
         assertThat(fizzBuzz.tryCalculateSingle(input).get())
                 .isEqualTo(String.valueOf("Fizz"));
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {5})
+    void numbersDivisibleBy5(int input) {
+        assertThat(fizzBuzz.tryCalculateSingle(input).get())
+                .isEqualTo(String.valueOf("Buzz"));
+    }
 }
