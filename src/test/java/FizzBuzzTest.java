@@ -35,7 +35,7 @@ class FizzBuzzTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {15})
+    @ValueSource(ints = {15, 30})
     void numbersDivisibleBy3and5(int input) {
         assertThat(fizzBuzz.tryCalculateSingle(input).get())
                 .isEqualTo(String.valueOf("Fizz-Buzz"));
