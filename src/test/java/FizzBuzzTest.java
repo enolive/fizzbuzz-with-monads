@@ -16,7 +16,14 @@ class FizzBuzzTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 4})
     void normalNumbers(int input) {
-        assertThat(fizzBuzz.calculateSingle(input).get())
+        assertThat(fizzBuzz.tryCalculateSingle(input).get())
                 .isEqualTo(String.valueOf(input));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {3})
+    void numbersDivisibleBy3(int input) {
+        assertThat(fizzBuzz.tryCalculateSingle(input).get())
+                .isEqualTo(String.valueOf("Fizz"));
     }
 }
