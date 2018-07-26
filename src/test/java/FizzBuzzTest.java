@@ -47,4 +47,11 @@ class FizzBuzzTest {
         assertThat(fizzBuzz.tryCalculateSingle(input).getLeft())
                 .isEqualTo("Input must be greater than zero.");
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {10001, 999999})
+    void inputTooHigh(int input) {
+        assertThat(fizzBuzz.tryCalculateSingle(input).getLeft())
+                .isEqualTo("Input must be lower or equal 10000.");
+    }
 }

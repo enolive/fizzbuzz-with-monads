@@ -16,7 +16,9 @@ class FizzBuzz {
     private Either<String, Integer> validate(int input) {
         return Either.<String, Integer>right(input)
                 .filter(i -> i > 0)
-                .getOrElse(() -> Either.left("Input must be greater than zero."));
+                .getOrElse(() -> Either.left("Input must be greater than zero."))
+                .filter(i -> i <= 10000)
+                .getOrElse(() -> Either.left("Input must be lower or equal 10000."));
     }
 
     private String calculateSingle(int input) {
