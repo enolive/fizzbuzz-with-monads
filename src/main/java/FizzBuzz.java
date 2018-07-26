@@ -10,17 +10,17 @@ class FizzBuzz {
 
     private String calculateSingle(int input) {
         final var rules = List.of(
-                Tuple.of(3, "Fizz"),
-                Tuple.of(5, "Buzz")
+                new Rule(3, "Fizz"),
+                new Rule(5, "Buzz")
         );
         return rules.filter(rule -> appliesTo(rule, input))
-                    .map(i -> i._2)
+                    .map(result -> result.result)
                     .headOption()
                     .getOrElse(() -> String.valueOf(input));
     }
 
-    private boolean appliesTo(Tuple2<Integer, String> rule, int input) {
-        return isDivisibleBy(input, rule._1);
+    private boolean appliesTo(Rule rule, int input) {
+        return isDivisibleBy(input, rule.divisor);
     }
 
     private boolean isDivisibleBy(int input, int divisor) {
