@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.text.MessageFormat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,10 +51,23 @@ class FizzBuzzTest {
                 .isEqualTo("Input must be greater than zero.");
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {10001, 999999})
-    void inputTooHigh(int input) {
-        assertThat(fizzBuzz.tryCalculateSingle(input).getLeft())
-                .isEqualTo("Input must be lower or equal 10000.");
+    @Test
+    void inputTooHigh() {
+        assertThat(fizzBuzz.tryCalculateSingle(FizzBuzz.UPPER_LIMIT + 1).getLeft())
+                .isEqualTo(MessageFormat.format("Input must be lower or equal {0}.", FizzBuzz.UPPER_LIMIT));
+    }
+
+    @Test
+    void sequence() {
+        assertThat(fizzBuzz.tryCalculateSequenceUpTo(15).get())
+                .containsExactly(
+                        "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8",
+                        "Fizz", "Buzz", "11", "Fizz", "13", "14", "Fizz-Buzz");
+    }
+
+    @Test
+    void sequenceTooHigh() {
+        assertThat(fizzBuzz.tryCalculateSequenceUpTo(FizzBuzz.UPPER_LIMIT + 1).getLeft())
+                .isEqualTo(MessageFormat.format("Input must be lower or equal {0}.", FizzBuzz.UPPER_LIMIT));
     }
 }
