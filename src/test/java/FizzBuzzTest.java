@@ -21,7 +21,7 @@ class FizzBuzzTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {3})
+    @ValueSource(ints = {3, 6})
     void numbersDivisibleBy3(int input) {
         assertThat(fizzBuzz.tryCalculateSingle(input).get())
                 .isEqualTo(String.valueOf("Fizz"));

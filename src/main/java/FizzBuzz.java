@@ -8,8 +8,12 @@ class FizzBuzz {
 
     private String calculateSingle(int input) {
         return Option.of(input)
-                     .filter(i -> i == 3)
+                     .filter(i -> isDivisibleBy(i, 3))
                      .map(i -> "Fizz")
                      .getOrElse(() -> String.valueOf(input));
+    }
+
+    private boolean isDivisibleBy(int input, int divisor) {
+        return input % divisor == 0;
     }
 }
