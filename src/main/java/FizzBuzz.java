@@ -1,21 +1,32 @@
 import io.vavr.collection.List;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 
 class FizzBuzz {
+
+    private final List<Rule> rules = List.of(
+            new Rule(3, "Fizz"),
+            new Rule(5, "Buzz")
+    );
+
     Either<String, String> tryCalculateSingle(int input) {
         return Either.right(calculateSingle(input));
     }
 
     private String calculateSingle(int input) {
-        final var rules = List.of(
-                new Rule(3, "Fizz"),
-                new Rule(5, "Buzz"),
-                new Rule(15, "Fizz-Buzz")
-        );
+        return Option.of(calculateResultFromRules(input))
+                     .filter(this::resultNotEmpty)
+                     .getOrElse(() -> String.valueOf(input));
+    }
+
+    private boolean resultNotEmpty(String r) {
+        return !r.isEmpty();
+    }
+
+    private String calculateResultFromRules(int input) {
         return rules.filter(rule -> rule.appliesTo(input))
-                    .map(Rule::getResult)
-                    .headOption()
-                    .getOrElse(() -> String.valueOf(input));
+                                .map(Rule::getResult)
+                                .mkString("-");
     }
 
 }
