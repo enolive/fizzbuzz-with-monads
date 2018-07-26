@@ -15,6 +15,12 @@ class FizzBuzz {
             new Rule(5, "Buzz")
     );
 
+    Either<String, Seq<String>> tryCalculateSequenceUpTo(int limitClosed) {
+        return Either.sequenceRight(Stream.rangeClosedBy(limitClosed, 1, -1)
+                                          .map(this::tryCalculateSingle))
+                     .map(Seq::reverse);
+    }
+
     Either<String, String> tryCalculateSingle(int input) {
         return validate(input).map(this::calculateSingle);
     }
@@ -41,11 +47,5 @@ class FizzBuzz {
 
     private boolean resultNotEmpty(String value) {
         return !value.isEmpty();
-    }
-
-    Either<String, Seq<String>> tryCalculateSequenceUpTo(int limitClosed) {
-        return Either.sequenceRight(Stream.rangeClosedBy(limitClosed, 1, -1)
-                                          .map(this::tryCalculateSingle))
-                     .map(Seq::reverse);
     }
 }
