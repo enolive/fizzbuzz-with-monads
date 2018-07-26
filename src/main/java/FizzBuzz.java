@@ -9,7 +9,8 @@ class FizzBuzz {
     private String calculateSingle(int input) {
         final var rules = List.of(
                 new Rule(3, "Fizz"),
-                new Rule(5, "Buzz")
+                new Rule(5, "Buzz"),
+                new Rule(15, "Fizz-Buzz")
         );
         return rules.filter(rule -> rule.appliesTo(input))
                     .map(Rule::getResult)

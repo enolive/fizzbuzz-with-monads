@@ -28,9 +28,16 @@ class FizzBuzzTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {5})
+    @ValueSource(ints = {5, 10})
     void numbersDivisibleBy5(int input) {
         assertThat(fizzBuzz.tryCalculateSingle(input).get())
                 .isEqualTo(String.valueOf("Buzz"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {15})
+    void numbersDivisibleBy3and5(int input) {
+        assertThat(fizzBuzz.tryCalculateSingle(input).get())
+                .isEqualTo(String.valueOf("Fizz-Buzz"));
     }
 }
