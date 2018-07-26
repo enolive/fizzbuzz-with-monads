@@ -19,14 +19,14 @@ class FizzBuzz {
                      .getOrElse(() -> String.valueOf(input));
     }
 
-    private boolean resultNotEmpty(String r) {
-        return !r.isEmpty();
-    }
-
     private String calculateResultFromRules(int input) {
         return rules.filter(rule -> rule.appliesTo(input))
-                                .map(Rule::getResult)
-                                .mkString("-");
+                    .map(Rule::getResult)
+                    .mkString("-");
+    }
+
+    private boolean resultNotEmpty(String r) {
+        return !r.isEmpty();
     }
 
 }
