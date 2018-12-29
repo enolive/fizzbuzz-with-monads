@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.franzbecker.gradle-lombok' version '1.14'
 }
 
 group 'de.welcz'
@@ -10,6 +11,10 @@ targetCompatibility = 1.10
 
 repositories {
     mavenCentral()
+}
+
+lombok {
+    version = '1.18.4'
 }
 
 test {

@@ -1,14 +1,18 @@
+import io.vavr.Function1;
+import io.vavr.Function2;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import io.vavr.collection.Stream;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 class FizzBuzz {
 
     private final List<DivByRule> rules = List.of(
-            new DivByRule(3, "Fizz"),
-            new DivByRule(5, "Buzz")
+            new DivByRule(numbersDivisibleBy(3), "Fizz"),
+            new DivByRule(numbersDivisibleBy(5), "Buzz")
     );
 
     Either<ValidationError, Seq<String>> calculateSequence(int limit) {
@@ -17,6 +21,14 @@ class FizzBuzz {
 
     Either<ValidationError, String> calculateSingle(int input) {
         return validate(input).map(this::singleValue);
+    }
+
+    private Function1<Integer, Boolean> numbersDivisibleBy(int divisor) {
+        return Function2.of(this::isDivisibleBy).reversed().apply(divisor);
+    }
+
+    private boolean isDivisibleBy(int input, int divisor) {
+        return input % divisor == 0;
     }
 
     private Either<ValidationError, Integer> validate(int input) {
@@ -30,23 +42,20 @@ class FizzBuzz {
 
     private String singleValue(int input) {
         return Option.of(rules.filter(r -> r.appliesTo(input))
-                              .map(r -> r.result)
+                              .map(DivByRule::getResult)
                               .mkString("-"))
                      .filter(i -> !i.isEmpty())
                      .getOrElse(() -> String.valueOf(input));
     }
 
+    @AllArgsConstructor
     private class DivByRule {
-        private final int divisor;
+        private final Function1<Integer, Boolean> predicate;
+        @Getter
         private final String result;
 
-        DivByRule(int divisor, String result) {
-            this.divisor = divisor;
-            this.result = result;
-        }
-
         boolean appliesTo(int input) {
-            return input % divisor == 0;
+            return predicate.apply(input);
         }
     }
 }
